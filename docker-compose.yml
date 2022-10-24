@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  pmmanutencao-api:
+    image: brunosas/pmmanutencao-api:latest
+    ports:
+      - "8081:8081"
+    networks:
+      - api-network
+    depends_on:
+      - postgres-compose
+    environment:
+      - DB_SERVER=postgres-compose
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    links:
+      - postgres-compose
+
+  postgres-compose:
+    image: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - api-network
+    environment:
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+
+networks:
+  api-network:
